@@ -5,6 +5,7 @@
 <meta name="description" content="{{ .Description }}">
 <link rel="canonical" href="{{ .Permalink }}">
 <meta name="robots" content="index,follow,max-image-preview:large">
+{{ with $site.site_verification.naver }}<meta name="naver-site-verification" content="{{ . }}">{{ end }}
 
 <meta property="og:type" content="website">
 <meta property="og:title" content="{{ .Title }}">

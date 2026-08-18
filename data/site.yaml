@@ -34,3 +34,5 @@ site:
     endpoints:
       - "https://searchadvisor.naver.com/indexnow"
       - "https://api.indexnow.org/indexnow"
+  site_verification:
+    naver: "29916a4762def3f00adeec692ebbe46519e5ee1d"

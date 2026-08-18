@@ -82,6 +82,8 @@ nav.prevnext{display:flex;justify-content:space-between;margin:1.5rem 0}
 .search-results a{display:block;text-decoration:none;color:var(--ink)}
 .search-results .addr{color:var(--ink-soft);font-size:.85rem;margin-left:.4rem}
 
+.hero-photo{width:100%;height:auto;border-radius:2px;margin:1.5rem 0}
+
 /* 지역 그리드 (홈) */
 .sido-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem;list-style:none;padding:0;margin:1.2rem 0}
 .sido-grid a{display:block;text-align:center;padding:.9rem .3rem;background:#fff;border:1px solid var(--line);

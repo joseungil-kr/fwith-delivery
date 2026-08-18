@@ -1,0 +1,100 @@
+:root{
+  --ink:        #17211C;
+  --ink-soft:   #5A6660;
+  --pine:       #2F4B3F;
+  --pine-lt:    #E4EAE6;
+  --gold:       #9C7B3E;
+  --paper:      #F7F8F7;
+  --line:       #D9DEDB;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo",
+              "Malgun Gothic","맑은 고딕","Noto Sans KR",sans-serif;
+  font-size:17px;
+  line-height:1.85;
+  color:var(--ink);
+  background:var(--paper);
+  word-break:keep-all;
+  margin:0;
+}
+a{color:var(--pine)}
+.container{max-width:37rem;margin:0 auto;padding:0 1.15rem}
+
+h1{font-size:1.65rem;line-height:1.4;letter-spacing:-.03em;font-weight:700;margin:1.2rem 0 .6rem}
+h2{position:relative;padding-left:1rem;font-size:1.22rem;line-height:1.45;letter-spacing:-.02em;font-weight:700;margin:3.2rem 0 1rem}
+h2::before{content:"";position:absolute;left:0;top:.25em;bottom:.1em;width:2px;background:var(--pine)}
+h2::after {content:"";position:absolute;left:-2px;top:.15em;width:6px;height:6px;border-radius:50%;background:var(--gold)}
+h3{font-size:1.02rem;letter-spacing:-.01em;font-weight:600;margin:1.6rem 0 .5rem}
+p{margin:.8rem 0}
+:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+
+/* 상단바 */
+.topbar{background:var(--pine);color:#fff;height:24px;display:flex;align-items:center;font-size:.78rem}
+.topbar .container{display:flex;justify-content:space-between;width:100%}
+.topbar a{color:#fff;text-decoration:none}
+
+/* CTA */
+.cta{display:block;background:var(--pine);color:#fff;text-align:center;
+     padding:1.15rem;border-radius:2px;font-size:1.25rem;font-weight:700;
+     letter-spacing:-.02em;text-decoration:none;margin:1.2rem 0}
+.cta small{display:block;font-size:.8rem;font-weight:400;opacity:.85;
+           margin-top:.3rem;letter-spacing:0}
+
+/* 모바일 하단 고정 */
+.stickybar{position:sticky;bottom:0;display:flex;gap:1px;
+           background:var(--line);box-shadow:0 -1px 8px rgba(0,0,0,.08);margin-top:2rem}
+.stickybar a{flex:1;padding:.9rem;text-align:center;background:var(--pine);
+             color:#fff;text-decoration:none;font-weight:600}
+
+/* 표 (가격표) */
+table{width:100%;border-collapse:collapse;font-size:.95rem;margin:1.2rem 0}
+th{background:var(--pine-lt);text-align:left;font-weight:600}
+th,td{padding:.7rem .6rem;border-bottom:1px solid var(--line)}
+td:last-child{text-align:right;font-variant-numeric:tabular-nums;font-weight:600}
+
+/* 목차 / FAQ */
+details{border:1px solid var(--line);border-radius:2px;margin:.5rem 0;padding:.2rem .9rem}
+summary{cursor:pointer;padding:.6rem 0;font-weight:600}
+details p{margin:0 0 .8rem}
+details[open] summary{border-bottom:1px solid var(--line);margin-bottom:.4rem}
+nav.toc ul{margin:0;padding-left:1.1rem}
+nav.toc li{margin:.3rem 0}
+
+/* 인근/관련 목록 */
+.linklist{list-style:none;margin:0;padding:0}
+.linklist li{border-bottom:1px solid var(--line);padding:.6rem 0}
+.linklist li:last-child{border-bottom:none}
+.linklist .addr{color:var(--ink-soft);font-size:.88rem;display:block;margin-top:.15rem}
+nav.prevnext{display:flex;justify-content:space-between;margin:1.5rem 0}
+
+/* 검색 (홈) */
+.search{margin:1.2rem 0}
+.search label{display:block;font-weight:600;margin-bottom:.4rem}
+.search input[type=search]{width:100%;padding:.8rem .9rem;font-size:1rem;border:1px solid var(--line);
+             border-radius:2px;background:#fff;color:var(--ink)}
+.search-results{border:1px solid var(--line);border-top:none;margin-top:-1px}
+.search-results a{display:block;text-decoration:none;color:var(--ink)}
+.search-results .addr{color:var(--ink-soft);font-size:.85rem;margin-left:.4rem}
+
+/* 지역 그리드 (홈) */
+.sido-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem;list-style:none;padding:0;margin:1.2rem 0}
+.sido-grid a{display:block;text-align:center;padding:.9rem .3rem;background:#fff;border:1px solid var(--line);
+             border-radius:2px;text-decoration:none;color:var(--ink);font-weight:600}
+
+/* 이미지 */
+img{max-width:100%;height:auto}
+
+/* footer */
+footer.site{border-top:1px solid var(--line);margin-top:3rem;padding:1.5rem 0 5rem;
+            color:var(--ink-soft);font-size:.82rem;line-height:1.7}
+footer.site nav a{color:var(--ink-soft);margin-right:.8rem}
+
+/* breadcrumb */
+.breadcrumb{font-size:.82rem;color:var(--ink-soft);margin:.8rem 0}
+.breadcrumb a{color:var(--ink-soft)}
+
+@media(min-width:600px){
+  .sido-grid{grid-template-columns:repeat(4,1fr)}
+}

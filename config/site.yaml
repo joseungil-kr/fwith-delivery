@@ -1,0 +1,36 @@
+site:
+  domain: "fwith.kr"
+  brand: "꽃이랑"
+  phone: "1844-0644"
+  publish:
+    start_date: "2026-08-16"
+  legal:
+    biz_name: "꽃이랑"
+    biz_name_legal: "(주)해피꽃배달"
+    ceo: "조남길"
+    biz_no: "417-81-51220"
+    mailorder_no: "제2017-부산부산진-0222호"
+    address: "부산광역시 동구 중앙대로 328, 10층(초량동, 금산빌딩)"
+    email: "customer@fwith.kr"
+    privacy_officer: "조승일"
+  pricing:
+    table:
+      - { name: "근조 3단 화환", price: 59000 }
+      - { name: "근조 고급 3단 화환", price: 79000 }
+      - { name: "근조 특대 3단 화환", price: 109000 }
+      - { name: "근조 특특대 3단 화환", price: 149000 }
+    price_min: 59000
+    price_max: 149000
+  delivery:
+    cutoff: "08:00~23:00"
+    excluded_area: "없음 (전국 배송)"
+    payment: "전화주문 후 카드결제 또는 무통장입금"
+    refund_policy: "화환 제작 전 환불 및 취소 가능"
+  contact:
+    kakao_url: ""
+    naver_talk_url: ""
+  indexnow:
+    key: "b5e6dfb7dd35ddc135cea8767f1ca8e0"
+    endpoints:
+      - "https://searchadvisor.naver.com/indexnow"
+      - "https://api.indexnow.org/indexnow"

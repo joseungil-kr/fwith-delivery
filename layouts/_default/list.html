@@ -1,0 +1,10 @@
+{{ define "main" }}
+{{ partial "breadcrumb.html" . }}
+<h1>{{ replaceRE ` \| 꽃이랑$` "" .Title }}</h1>
+{{ .Content }}
+<ul class="linklist">
+  {{ range .Pages }}
+    <li><a href="{{ .Permalink }}">{{ replaceRE ` \| 꽃이랑$` "" .Title }}</a></li>
+  {{ end }}
+</ul>
+{{ end }}

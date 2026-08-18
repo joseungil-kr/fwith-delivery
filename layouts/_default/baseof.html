@@ -1,0 +1,14 @@
+<!doctype html>
+<html lang="ko">
+<head>
+{{ partial "head.html" . }}
+</head>
+<body>
+{{ partial "header.html" . }}
+<main class="container">
+{{ block "main" . }}{{ end }}
+</main>
+{{ partial "footer.html" . }}
+{{ partial "cta.html" . }}
+</body>
+</html>

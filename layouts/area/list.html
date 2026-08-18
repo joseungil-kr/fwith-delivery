@@ -1,0 +1,30 @@
+{{ define "main" }}
+{{ $a := .Params.area }}
+{{ partial "breadcrumb.html" . }}
+
+{{ if eq $a.level "sido" }}
+  <h1>{{ $a.sido }} 장례식장 근조화환 배달</h1>
+  <p>{{ .Site.Data.site.site.brand }}이(가) {{ $a.sido }} 전 지역 근조화환 배송을 담당합니다. 시군구를 선택하시면 해당 지역 장례식장 목록을 확인하실 수 있습니다.</p>
+  {{ $children := where .Site.Pages "Section" "area" }}
+  {{ $children = where $children ".Params.area.level" "sigungu" }}
+  {{ $children = where $children ".Params.area.sido" $a.sido }}
+  <ul class="linklist">
+    {{ range $children.ByTitle }}
+      <li><a href="{{ .Permalink }}">{{ .Params.area.sigungu }}</a>
+        <span class="addr">{{ len (where $.Site.RegularPages "Params.funeral.sigungu" .Params.area.sigungu) }}개 장례식장</span></li>
+    {{ end }}
+  </ul>
+{{ else }}
+  <h1>{{ $a.sigungu }} 장례식장 근조화환 배달</h1>
+  <p>{{ $a.intro_text }}</p>
+  <a class="cta" href="tel:{{ .Site.Data.site.site.phone }}">주문 전화 {{ .Site.Data.site.site.phone }}<small>24시간 접수 · 당일배송</small></a>
+  {{ $funerals := where .Site.RegularPages "Type" "funeral" }}
+  {{ $funerals = where $funerals ".Params.funeral.sigungu" $a.sigungu }}
+  <h2>{{ $a.sigungu }} 장례식장 목록</h2>
+  <ul class="linklist">
+    {{ range $funerals.ByTitle }}
+      <li><a href="{{ .Permalink }}">{{ .Params.funeral.name }}</a><span class="addr">{{ .Params.funeral.addr }}</span></li>
+    {{ end }}
+  </ul>
+{{ end }}
+{{ end }}

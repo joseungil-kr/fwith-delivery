@@ -1,0 +1,19 @@
+{{ $items := slice (dict "name" "홈" "url" "/") }}
+{{ if eq .Type "funeral" }}
+  {{ $f := .Params.funeral }}
+  {{ $items = $items | append (dict "name" $f.sido "url" (printf "/area/%s/" $f.sido)) }}
+  {{ $items = $items | append (dict "name" $f.sigungu "url" (printf "/area/%s/%s/" $f.sido $f.sigungu_slug)) }}
+  {{ $items = $items | append (dict "name" (printf "%s 근조화환" $f.name) "url" .Permalink) }}
+{{ else if eq .Type "area" }}
+  {{ $a := .Params.area }}
+  {{ $items = $items | append (dict "name" $a.sido "url" (printf "/area/%s/" $a.sido)) }}
+  {{ if eq $a.level "sigungu" }}
+    {{ $items = $items | append (dict "name" $a.sigungu "url" .Permalink) }}
+  {{ end }}
+{{ else if eq .Section "guide" }}
+  {{ $items = $items | append (dict "name" "가이드" "url" "/guide/") }}
+  {{ if ne .RelPermalink "/guide/" }}{{ $items = $items | append (dict "name" (replaceRE ` \| 꽃이랑$` "" .Title) "url" .Permalink) }}{{ end }}
+{{ end }}
+<nav class="breadcrumb" aria-label="breadcrumb">
+  {{ range $i, $it := $items }}{{ if $i }} &gt; {{ end }}{{ if eq (add $i 1) (len $items) }}<span>{{ $it.name }}</span>{{ else }}<a href="{{ $it.url }}">{{ $it.name }}</a>{{ end }}{{ end }}
+</nav>

@@ -1,0 +1,42 @@
+{{ if eq .Type "funeral" }}
+{{ $site := .Site.Data.site.site }}
+{{ $f := .Params.funeral }}
+{{ $base := printf "https://%s" $site.domain }}
+<script type="application/ld+json">
+[
+{
+  "@context":"https://schema.org",
+  "@type":"BreadcrumbList",
+  "itemListElement":[
+    {"@type":"ListItem","position":1,"name":"홈","item":"{{ $base }}/"},
+    {"@type":"ListItem","position":2,"name":"{{ $f.sido }}","item":"{{ $base }}/area/{{ $f.sido }}/"},
+    {"@type":"ListItem","position":3,"name":"{{ $f.sigungu }}","item":"{{ $base }}/area/{{ $f.sido }}/{{ $f.sigungu_slug }}/"},
+    {"@type":"ListItem","position":4,"name":"{{ $f.name }} 근조화환"}
+  ]
+},
+{
+  "@context":"https://schema.org",
+  "@type":"Product",
+  "name":"근조화환 ({{ $f.name }} 배송)",
+  "brand":{"@type":"Brand","name":"{{ $site.brand }}"},
+  "offers":{
+    "@type":"AggregateOffer",
+    "priceCurrency":"KRW",
+    "lowPrice":"{{ $site.pricing.price_min }}",
+    "highPrice":"{{ $site.pricing.price_max }}",
+    "availability":"https://schema.org/InStock",
+    "areaServed":{"@type":"Place","name":"{{ $f.sido }} {{ $f.sigungu }}"}
+  }
+},
+{
+  "@context":"https://schema.org",
+  "@type":"FAQPage",
+  "mainEntity":[
+    {{ range $i, $qa := $f.faq }}{{ if $i }},{{ end }}
+    {"@type":"Question","name":{{ $qa.q | jsonify | safeJS }},"acceptedAnswer":{"@type":"Answer","text":{{ $qa.a | jsonify | safeJS }}}}
+    {{ end }}
+  ]
+}
+]
+</script>
+{{ end }}

@@ -1,0 +1,6 @@
+{{ $f := .Params.funeral }}
+{{ range $f.facility_sentences }}<p>{{ . }}</p>{{ end }}
+<p>
+  <a href="https://map.naver.com/p/search/{{ $f.name | urlquery }}" target="_blank" rel="noopener">네이버 지도에서 보기</a> ·
+  <a href="https://map.kakao.com/?q={{ $f.name | urlquery }}" target="_blank" rel="noopener">카카오맵에서 보기</a>
+</p>

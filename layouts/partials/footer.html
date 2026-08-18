@@ -1,0 +1,21 @@
+{{ $site := .Site.Data.site.site }}
+{{ $legal := $site.legal }}
+<footer class="site">
+  <div class="container">
+    <nav>
+      <a href="/page/about/">회사소개</a>
+      <a href="/page/terms/">이용약관</a>
+      <a href="/page/privacy/">개인정보처리방침</a>
+      <a href="/page/refund/">취소/환불 규정</a>
+    </nav>
+    <p>
+      상호: {{ $legal.biz_name }}({{ $legal.biz_name_legal }})  |  대표자: {{ $legal.ceo }}<br>
+      사업자등록번호: {{ $legal.biz_no }}<br>
+      통신판매업신고번호: {{ $legal.mailorder_no }}<br>
+      사업장 주소: {{ $legal.address }}<br>
+      전화: {{ $site.phone }}  |  이메일: {{ $legal.email }}<br>
+      개인정보관리책임자: {{ $legal.privacy_officer }}
+    </p>
+    <p>&copy; {{ now.Year }} {{ $site.brand }}. All rights reserved.</p>
+  </div>
+</footer>

@@ -1,0 +1,11 @@
+baseURL = "https://fwith.kr/"
+title = "꽃이랑 근조화환"
+languageCode = "ko-KR"
+defaultContentLanguage = "ko"
+hasCJKLanguage = true
+enableRobotsTXT = true
+disableKinds = ["taxonomy", "term"]
+paginate = 10
+buildFuture = false
+buildDrafts = false
+buildExpired = false

@@ -1,0 +1,58 @@
+{{ define "main" }}
+{{ $f := .Params.funeral }}
+{{ partial "breadcrumb.html" . }}
+
+<h1>{{ $f.name }} 근조화환 배달</h1>
+<p>{{ $f.sido }} {{ $f.sigungu }} · {{ $f.addr }}<br>
+장례식장 대표번호 {{ $f.tel }}</p>
+
+<a class="cta" href="tel:{{ .Site.Data.site.site.phone }}">주문 전화 {{ .Site.Data.site.site.phone }}<small>24시간 접수 · 당일배송</small></a>
+
+<details class="toc">
+  <summary>목차</summary>
+  <nav class="toc"><ul>
+    <li><a href="#delivery">배송 안내</a></li>
+    <li><a href="#price">근조화환 가격</a></li>
+    <li><a href="#order">주문 방법</a></li>
+    <li><a href="#ribbon">근조 리본 문구 예시</a></li>
+    <li><a href="#facility">장례식장 시설 안내</a></li>
+    <li><a href="#faq">자주 묻는 질문</a></li>
+  </ul></nav>
+</details>
+
+<h2 id="delivery">배송 안내</h2>
+<p>{{ $f.delivery_text }}</p>
+
+<h2 id="price">근조화환 가격</h2>
+{{ partial "pricetable.html" . }}
+
+<h2 id="order">주문 방법</h2>
+<p>{{ $f.order_text }}</p>
+<a class="cta" href="tel:{{ .Site.Data.site.site.phone }}">주문 전화 {{ .Site.Data.site.site.phone }}<small>24시간 접수 · 당일배송</small></a>
+
+<h2 id="ribbon">근조 리본 문구 예시</h2>
+{{ partial "ribbonlist.html" . }}
+
+<h2 id="facility">{{ $f.name }} 시설 안내</h2>
+{{ partial "facility.html" . }}
+
+<h2 id="faq">자주 묻는 질문</h2>
+{{ range $f.faq }}
+<details><summary>{{ .q }}</summary><p>{{ .a }}</p></details>
+{{ end }}
+
+<h2>{{ $f.sigungu }} 인근 장례식장</h2>
+<ul class="linklist">
+  {{ $funerals := where $.Site.RegularPages "Type" "funeral" }}
+  {{ range $f.nearby }}
+    {{ $slug := . }}
+    {{ with where $funerals ".Params.funeral.slug" $slug }}
+      {{ with index . 0 }}
+      <li><a href="{{ .Permalink }}">{{ .Params.funeral.name }}</a><span class="addr">{{ .Params.funeral.addr }}</span></li>
+      {{ end }}
+    {{ end }}
+  {{ end }}
+</ul>
+
+{{ partial "related.html" . }}
+{{ end }}

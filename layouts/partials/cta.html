@@ -1,0 +1,5 @@
+{{ $site := .Site.Data.site.site }}
+<div class="stickybar">
+  <a href="tel:{{ $site.phone }}">주문 전화 {{ $site.phone }}</a>
+  {{ with $site.contact.kakao_url }}<a href="{{ . }}">카카오톡 문의</a>{{ end }}
+</div>

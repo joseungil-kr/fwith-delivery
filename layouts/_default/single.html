@@ -1,0 +1,8 @@
+{{ define "main" }}
+{{ partial "breadcrumb.html" . }}
+<h1>{{ replaceRE ` \| 꽃이랑$` "" .Title }}</h1>
+{{ .Content }}
+{{ if eq .Section "guide" }}
+<a class="cta" href="tel:{{ .Site.Data.site.site.phone }}">주문 전화 {{ .Site.Data.site.site.phone }}<small>24시간 접수 · 당일배송</small></a>
+{{ end }}
+{{ end }}

@@ -1,0 +1,7 @@
+{{ $rows := .Site.Data.site.site.pricing.table }}
+<table>
+  <thead><tr><th>상품</th><th>가격</th></tr></thead>
+  <tbody>
+    {{ range $rows }}<tr><td>{{ .name }}</td><td>{{ lang.FormatNumberCustom 0 .price }}원</td></tr>{{ end }}
+  </tbody>
+</table>

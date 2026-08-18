@@ -1,0 +1,49 @@
+{{ $f := .Params.funeral }}
+{{ $page := . }}
+{{ $funerals := where .Site.RegularPages "Type" "funeral" }}
+{{ $sameSigungu := first 5 (where (where $funerals ".Params.funeral.sigungu" $f.sigungu) ".Permalink" "ne" .Permalink) }}
+{{ $sameSido := first 5 (where (where $funerals ".Params.funeral.sido" $f.sido) ".Params.funeral.sigungu" "ne" $f.sigungu) }}
+{{ $recent := first 10 (where (sort $funerals "Date" "desc") ".Permalink" "ne" .Permalink) }}
+{{ $guides := where .Site.RegularPages "Section" "guide" }}
+
+<section class="related">
+  <h2>다른 글 보기</h2>
+
+  {{ if $sameSigungu }}
+  <h3>{{ $f.sigungu }} 장례식장</h3>
+  <ul class="linklist">
+    {{ range $sameSigungu }}<li><a href="{{ .Permalink }}">{{ .Params.funeral.name }} 근조화환</a></li>{{ end }}
+  </ul>
+  {{ end }}
+
+  {{ if $sameSido }}
+  <h3>{{ $f.sido }} 지역 장례식장</h3>
+  <ul class="linklist">
+    {{ range $sameSido }}<li><a href="{{ .Permalink }}">{{ .Params.funeral.name }} 근조화환 배달</a></li>{{ end }}
+  </ul>
+  {{ end }}
+
+  <h3>최근 등록된 장례식장</h3>
+  <ul class="linklist">
+    {{ range $recent }}<li><a href="{{ .Permalink }}">{{ .Params.funeral.name }} 조화 배달</a></li>{{ end }}
+  </ul>
+
+  <nav class="prevnext">
+    {{ with .PrevInSection }}<a href="{{ .Permalink }}">← {{ .Params.funeral.name }}</a>{{ else }}<span></span>{{ end }}
+    {{ with .NextInSection }}<a href="{{ .Permalink }}">{{ .Params.funeral.name }} →</a>{{ end }}
+  </nav>
+
+  {{ if $guides }}
+  <h3>함께 보면 좋은 안내</h3>
+  <ul class="linklist">
+    {{ $n := len $guides }}
+    {{ range $i := (seq 0 2) }}
+      {{ if lt $i $n }}
+        {{ $idx := mod (add (len $f.name) $i) $n }}
+        {{ $g := index $guides $idx }}
+        <li><a href="{{ $g.Permalink }}">{{ replaceRE ` \| 꽃이랑$` "" $g.Title }}</a></li>
+      {{ end }}
+    {{ end }}
+  </ul>
+  {{ end }}
+</section>

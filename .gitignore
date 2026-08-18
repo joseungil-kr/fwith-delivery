@@ -1,0 +1,8 @@
+public/
+resources/
+.hugo_build.lock
+__pycache__/
+.DS_Store
+*.pyc
+*.pyo
+*.pyd

@@ -1,0 +1,54 @@
+name: Daily Publish
+on:
+  schedule:
+    - cron: '10 15,21,3,9 * * *'   # KST 00:10 / 06:10 / 12:10 / 18:10
+  workflow_dispatch:
+
+concurrency:
+  group: deploy
+  cancel-in-progress: false
+
+jobs:
+  build-deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
+
+      - name: Setup Hugo
+        uses: peaceiris/actions-hugo@v3
+        with:
+          hugo-version: 'latest'
+          extended: true
+
+      - name: Build
+        env:
+          TZ: Asia/Seoul
+        run: hugo --minify --gc --baseURL "${{ secrets.SITE_URL }}"
+
+      - name: Deploy (Wrangler direct upload)
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CF_API_TOKEN }}
+          accountId: ${{ secrets.CF_ACCOUNT_ID }}
+          command: pages deploy public --project-name=flower-wreath --branch=main
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Submit new URLs to IndexNow
+        run: |
+          pip install -r tools/generator/requirements.txt
+          python tools/generator/indexnow.py
+
+      - name: Commit submitted log
+        run: |
+          git config user.name  "github-actions"
+          git config user.email "actions@github.com"
+          git add .indexnow/submitted.txt
+          git diff --staged --quiet || git commit -m "chore: indexnow log [skip ci]"
+          git push

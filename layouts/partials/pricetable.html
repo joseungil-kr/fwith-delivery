@@ -1,3 +1,20 @@
+{{ $photos := slice
+  (dict "file" "f1.jpg" "alt" "근조화환 실물 — 백국과 노란 백합, 검정·금색 나비매듭 리본")
+  (dict "file" "f2.jpg" "alt" "근조화환 실물 — 백국 위주 구성에 백합과 분홍 글라디올러스 포인트")
+  (dict "file" "f3.jpg" "alt" "근조화환 실물 — 백국과 백합, 노란 부채형 리본 장식")
+  (dict "file" "f4.jpg" "alt" "근조화환 실물 — 백국과 분홍 글라디올러스, 흰색 리본 클로즈업")
+}}
+<div class="product-gallery">
+  {{ range $photos }}
+    {{ $alt := .alt }}
+    {{ $orig := resources.Get (printf "img/product/%s" .file) }}
+    {{ with $orig }}
+      {{ $img := .Resize "480x webp q78" }}
+      <img src="{{ $img.RelPermalink }}" width="{{ $img.Width }}" height="{{ $img.Height }}" alt="{{ $alt }}" loading="lazy" decoding="async">
+    {{ end }}
+  {{ end }}
+</div>
+
 {{ $rows := .Site.Data.site.site.pricing.table }}
 <table>
   <thead><tr><th>상품</th><th>가격</th></tr></thead>

@@ -48,6 +48,10 @@ p{margin:.8rem 0}
 .stickybar a{flex:1;padding:.9rem;text-align:center;background:var(--pine);
              color:#fff;text-decoration:none;font-weight:600}
 
+/* 상품 사진 */
+.product-gallery{display:grid;grid-template-columns:repeat(2,1fr);gap:.5rem;margin:1rem 0}
+.product-gallery img{width:100%;height:auto;border-radius:2px;border:1px solid var(--line)}
+
 /* 표 (가격표) */
 table{width:100%;border-collapse:collapse;font-size:.95rem;margin:1.2rem 0}
 th{background:var(--pine-lt);text-align:left;font-weight:600}

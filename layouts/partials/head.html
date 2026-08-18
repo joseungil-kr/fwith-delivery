@@ -10,7 +10,13 @@
 <meta property="og:type" content="website">
 <meta property="og:title" content="{{ .Title }}">
 <meta property="og:description" content="{{ .Description }}">
-<meta property="og:image" content="{{ $site.domain | printf "https://%s/img/og-default.jpg" }}">
+{{ $ogImg := resources.Get "img/hero_01.webp" }}
+{{ if $ogImg }}
+  {{ $ogImg = $ogImg.Fill "1200x630 webp q78" }}
+  <meta property="og:image" content="{{ $ogImg.Permalink }}">
+{{ else }}
+  <meta property="og:image" content="{{ $site.domain | printf "https://%s/img/og-default.jpg" }}">
+{{ end }}
 <meta property="og:url" content="{{ .Permalink }}">
 <meta property="og:site_name" content="꽃이랑 근조화환">
 <meta name="twitter:card" content="summary_large_image">

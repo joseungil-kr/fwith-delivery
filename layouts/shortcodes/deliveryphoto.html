@@ -1,0 +1,5 @@
+{{ $img := resources.Get "img/hero_03.webp" }}
+{{ with $img }}
+  {{ $r := .Resize "1000x webp q78" }}
+  <img src="{{ $r.RelPermalink }}" width="{{ $r.Width }}" height="{{ $r.Height }}" alt="꽃이랑 배송 기사가 장례식장에 근조화환을 전달하는 모습" loading="lazy" decoding="async">
+{{ end }}

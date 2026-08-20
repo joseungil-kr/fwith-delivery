@@ -1,7 +1,9 @@
 {{ $site := .Site.Data.site.site }}
 <div class="topbar">
   <div class="container">
-    <span>{{ $site.brand }}</span>
-    <a href="tel:{{ $site.phone }}">{{ $site.phone }}</a>
+    <div class="branding">
+      <h1 class="logo">{{ $site.brand }}</h1>
+      <a href="tel:{{ $site.phone }}" class="phone-link">{{ $site.phone }}</a>
+    </div>
   </div>
 </div>

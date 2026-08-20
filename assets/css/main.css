@@ -31,9 +31,11 @@ p{margin:.8rem 0}
 :focus-visible{outline:2px solid var(--gold);outline-offset:2px}
 
 /* 상단바 */
-.topbar{background:var(--pine);color:#fff;height:24px;display:flex;align-items:center;font-size:.78rem}
-.topbar .container{display:flex;justify-content:space-between;width:100%}
-.topbar a{color:#fff;text-decoration:none}
+.topbar{background:var(--pine);color:#fff;padding:1rem 0;display:flex;align-items:center}
+.topbar .container{display:flex;align-items:center;gap:1.5rem;width:100%}
+.topbar .branding{display:flex;align-items:baseline;gap:1rem}
+.topbar .logo{font-size:2rem;font-weight:800;margin:0;letter-spacing:-.05em;line-height:1}
+.topbar .phone-link{font-size:1.15rem;font-weight:700;color:#fff;text-decoration:none;letter-spacing:-.02em}
 
 /* CTA */
 .cta{display:block;background:var(--pine);color:#fff;text-align:center;

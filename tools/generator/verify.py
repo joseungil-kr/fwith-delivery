@@ -133,7 +133,8 @@ def main():
             body_text = strip_tags(main_html.group(1)) if main_html else ""
             if len(body_text) < 900:
                 short_body.append(p)
-            if not re.search(r'<link rel=canonical href="?https://', html):
+            canonical = re.search(r'<link rel=canonical href="([^"]+)', html)
+            if canonical and not canonical.group(1).startswith('https://'):
                 canonical_bad.append(p)
             if re.search(r'<(script|link)[^>]+(src|href)="?https?://(?!fwith\.kr)', html):
                 cdn_refs.append(p)

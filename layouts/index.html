@@ -2,11 +2,6 @@
 {{ $site := .Site.Data.site.site }}
 <h1>전국 장례식장 근조화환 배달, {{ $site.brand }}</h1>
 
-{{ $funerals := where .Site.RegularPages "Type" "funeral" }}
-{{ $index := slice }}
-{{ range $funerals }}
-  {{ $index = $index | append (dict "n" .Params.funeral.name "u" .Permalink "s" .Params.funeral.sigungu) }}
-{{ end }}
 <div class="search">
   <label for="funeral-search">장례식장 이름으로 검색</label>
   <input type="search" id="funeral-search" placeholder="예: 서울아산병원 장례식장" autocomplete="off">
@@ -14,31 +9,41 @@
 </div>
 <script>
 (function(){
-  var DATA = {{ $index | jsonify | safeJS }};
+  var DATA = null;
   var input = document.getElementById('funeral-search');
   var results = document.getElementById('funeral-search-results');
+  function loadData(cb){
+    if (DATA) return cb();
+    fetch('/search-index.json')
+      .then(function(r){ return r.json(); })
+      .then(function(d){ DATA = d; cb(); })
+      .catch(function(){});
+  }
+  input.addEventListener('focus', function(){ loadData(function(){}); });
   input.addEventListener('input', function(){
-    var q = input.value.trim();
-    results.innerHTML = '';
-    if (!q) { results.hidden = true; return; }
-    var matched = DATA.filter(function(d){ return d.n.indexOf(q) !== -1; }).slice(0, 8);
-    if (!matched.length) {
-      results.hidden = true;
-      return;
-    }
-    matched.forEach(function(d){
-      var li = document.createElement('li');
-      var a = document.createElement('a');
-      a.href = d.u;
-      a.textContent = d.n;
-      var span = document.createElement('span');
-      span.className = 'addr';
-      span.textContent = d.s;
-      a.appendChild(span);
-      li.appendChild(a);
-      results.appendChild(li);
+    loadData(function(){
+      var q = input.value.trim();
+      results.innerHTML = '';
+      if (!q || !DATA) { results.hidden = true; return; }
+      var matched = DATA.filter(function(d){ return d.n.indexOf(q) !== -1; }).slice(0, 8);
+      if (!matched.length) {
+        results.hidden = true;
+        return;
+      }
+      matched.forEach(function(d){
+        var li = document.createElement('li');
+        var a = document.createElement('a');
+        a.href = d.u;
+        a.textContent = d.n;
+        var span = document.createElement('span');
+        span.className = 'addr';
+        span.textContent = d.s;
+        a.appendChild(span);
+        li.appendChild(a);
+        results.appendChild(li);
+      });
+      results.hidden = false;
     });
-    results.hidden = false;
   });
 })();
 </script>

@@ -22,9 +22,11 @@
 
 <h2 id="delivery">배송 안내</h2>
 <p>{{ $f.delivery_text }}</p>
+<p class="guide-note">지역별 상세 도착 소요 시간과 접수 마감 기준은 <a href="/guide/delivery-time/">지역별 근조화환 배송 소요시간 안내</a>에서 확인하실 수 있습니다.</p>
 
 <h2 id="price">근조화환 가격</h2>
 {{ partial "pricetable.html" . }}
+<p class="guide-note">화환 형태별 규격 차이와 상황별 선택 기준은 <a href="/guide/3dan-5dan/">근조화환 3단과 5단 차이 및 선택 기준</a>을 참고하시기 바랍니다.</p>
 
 <h2 id="order">주문 방법</h2>
 <p>{{ $f.order_text }}</p>
@@ -32,6 +34,7 @@
 
 <h2 id="ribbon">근조 리본 문구 예시</h2>
 {{ partial "ribbonlist.html" . }}
+<p class="guide-note">종교별(기독교·불교 등) 문구 및 회사·단체 직함 표기법은 <a href="/guide/ribbon/">근조 리본 문구 총정리</a>에서 자세히 확인하실 수 있습니다.</p>
 
 <h2 id="facility">{{ $f.name }} 시설 안내</h2>
 {{ partial "facility.html" . }}

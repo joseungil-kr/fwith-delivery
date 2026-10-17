@@ -21,6 +21,7 @@ XLSX_PATH = f"{ROOT}/자료/전국 장례식장 리스트 1000+ 간단정리.xls
 CONFIG_PATH = f"{ROOT}/config/site.yaml"
 OUT_FUNERALS = f"{ROOT}/data/funerals.json"
 OUT_AREAS = f"{ROOT}/data/areas.json"
+OUT_SEARCH = f"{ROOT}/static/search-index.json"
 OUT_ERRORS = f"{ROOT}/tools/generator/_errors.csv"
 OUT_REPORT = f"{ROOT}/tools/generator/_report.txt"
 
@@ -249,6 +250,11 @@ def main():
     areas_out = {sido: dict(sorted(sg.items())) for sido, sg in sorted(areas.items())}
     with open(OUT_AREAS, "w", encoding="utf-8") as f:
         json.dump(areas_out, f, ensure_ascii=False, indent=2)
+
+    # static/search-index.json: 검색용 경량 데이터
+    search_data = [{"n": r["name"], "u": r["url"], "s": r["sigungu"]} for r in records]
+    with open(OUT_SEARCH, "w", encoding="utf-8") as f:
+        json.dump(search_data, f, ensure_ascii=False)
 
     if errors:
         with open(OUT_ERRORS, "w", encoding="utf-8", newline="") as f:

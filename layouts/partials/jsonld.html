@@ -1,7 +1,25 @@
-{{ if eq .Type "funeral" }}
 {{ $site := .Site.Data.site.site }}
-{{ $f := .Params.funeral }}
 {{ $base := printf "https://%s" $site.domain }}
+{{ if .IsHome }}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Florist",
+  "name": "{{ $site.brand }}",
+  "legalName": "{{ $site.legal.biz_name_legal }}",
+  "url": "{{ $base }}/",
+  "telephone": "{{ $site.phone }}",
+  "priceRange": "KRW {{ $site.pricing.price_min }} - {{ $site.pricing.price_max }}",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "{{ $site.legal.address }}",
+    "addressCountry": "KR"
+  },
+  "openingHours": "Mo-Su 00:00-24:00"
+}
+</script>
+{{ else if eq .Type "funeral" }}
+{{ $f := .Params.funeral }}
 <script type="application/ld+json">
 [
 {
@@ -38,5 +56,50 @@
   ]
 }
 ]
+</script>
+{{ else if eq .Section "guide" }}
+<script type="application/ld+json">
+[
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {"@type": "ListItem", "position": 1, "name": "홈", "item": "{{ $base }}/"},
+    {"@type": "ListItem", "position": 2, "name": "근조화환 가이드", "item": "{{ $base }}/guide/"},
+    {"@type": "ListItem", "position": 3, "name": "{{ .Title }}"}
+  ]
+},
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "{{ .Title }}",
+  "description": "{{ .Description }}",
+  "inLanguage": "ko-KR",
+  "mainEntityOfPage": "{{ .Permalink }}",
+  "publisher": {
+    "@type": "Organization",
+    "name": "{{ $site.brand }}",
+    "url": "{{ $base }}/"
+  },
+  "datePublished": "{{ .Date.Format "2006-01-02" }}"
+}
+]
+</script>
+{{ else if eq .Section "area" }}
+{{ $a := .Params.area }}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {"@type": "ListItem", "position": 1, "name": "홈", "item": "{{ $base }}/"},
+    {{ if eq $a.level "sigungu" }}
+    {"@type": "ListItem", "position": 2, "name": "{{ $a.sido }}", "item": "{{ $base }}/area/{{ $a.sido }}/"},
+    {"@type": "ListItem", "position": 3, "name": "{{ $a.sigungu }}"}
+    {{ else }}
+    {"@type": "ListItem", "position": 2, "name": "{{ $a.sido }}"}
+    {{ end }}
+  ]
+}
 </script>
 {{ end }}

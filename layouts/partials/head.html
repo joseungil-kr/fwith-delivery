@@ -1,5 +1,6 @@
 {{ $site := .Site.Data.site.site }}
-{{ $metaTitle := .Title }}
+{{ $areaTitlePrefix := partial "area-title-prefix.html" . }}
+{{ $metaTitle := printf "%s%s" $areaTitlePrefix .Title }}
 {{ $metaDescription := .Description }}
 {{ if eq .RelPermalink "/area/" }}
   {{ $metaTitle = "지역별 근조화환 안내 | 꽃이랑 근조화환" }}

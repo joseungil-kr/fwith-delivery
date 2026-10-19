@@ -1,0 +1,15 @@
+{{- $page := . -}}
+{{- with .Params.area -}}
+  {{- if eq .level "sigungu" -}}
+    {{- $area := . -}}
+    {{- $sameNameCount := 0 -}}
+    {{- range $sido, $districts := $page.Site.Data.areas -}}
+      {{- if isset $districts $area.sigungu -}}
+        {{- $sameNameCount = add $sameNameCount 1 -}}
+      {{- end -}}
+    {{- end -}}
+    {{- if ge $sameNameCount 2 -}}
+      {{- printf "%s " $area.sido -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}

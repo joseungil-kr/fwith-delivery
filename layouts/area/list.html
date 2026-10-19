@@ -21,11 +21,14 @@
   <ul class="linklist">
     {{ range $children.ByTitle }}
       <li><a href="{{ .Permalink }}">{{ .Params.area.sigungu }}</a>
-        <span class="addr">{{ len (where $.Site.RegularPages "Params.funeral.sigungu" .Params.area.sigungu) }}개 장례식장</span></li>
+        {{ $funerals := where $.Site.RegularPages "Type" "funeral" }}
+        {{ $funerals = where $funerals ".Params.funeral.sido" .Params.area.sido }}
+        {{ $funerals = where $funerals ".Params.funeral.sigungu" .Params.area.sigungu }}
+        <span class="addr">{{ len $funerals }}개 장례식장</span></li>
     {{ end }}
   </ul>
 {{ else }}
-  <h1>{{ $a.sigungu }} 장례식장 근조화환 배달</h1>
+  <h1>{{ partial "area-title-prefix.html" . }}{{ $a.sigungu }} 장례식장 근조화환 배달</h1>
   <p>{{ $a.intro_text }}</p>
   <a class="cta" href="tel:{{ .Site.Data.site.site.phone }}">주문 전화 {{ .Site.Data.site.site.phone }}<small>24시간 접수 · 당일배송</small></a>
   {{ $funerals := where .Site.RegularPages "Type" "funeral" }}

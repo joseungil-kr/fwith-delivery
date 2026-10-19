@@ -4,6 +4,8 @@
   {{ $items = $items | append (dict "name" $f.sido "url" (printf "/area/%s/" $f.sido)) }}
   {{ $items = $items | append (dict "name" $f.sigungu "url" (printf "/area/%s/%s/" $f.sido $f.sigungu_slug)) }}
   {{ $items = $items | append (dict "name" (printf "%s 근조화환" $f.name) "url" .Permalink) }}
+{{ else if eq .RelPermalink "/area/" }}
+  {{ $items = $items | append (dict "name" "지역별 안내" "url" .Permalink) }}
 {{ else if eq .Type "area" }}
   {{ $a := .Params.area }}
   {{ $items = $items | append (dict "name" $a.sido "url" (printf "/area/%s/" $a.sido)) }}

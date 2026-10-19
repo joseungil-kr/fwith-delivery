@@ -1,16 +1,28 @@
 {{ $site := .Site.Data.site.site }}
+{{ $metaTitle := .Title }}
+{{ $metaDescription := .Description }}
+{{ if eq .RelPermalink "/area/" }}
+  {{ $metaTitle = "지역별 근조화환 안내 | 꽃이랑 근조화환" }}
+  {{ $metaDescription = "서울·부산 등 지역별 장례식장 정보를 모았습니다. 지역을 선택해 시군구별 장례식장 목록과 근조화환 배달 안내를 확인할 수 있습니다." }}
+{{ else if eq .RelPermalink "/funeral/" }}
+  {{ $metaTitle = "장례식장 근조화환 안내 | 꽃이랑 근조화환" }}
+  {{ $metaDescription = "전국 장례식장별 근조화환 안내를 모았습니다. 각 페이지에서 장례식장 정보와 가격, 리본 문구, 배송 소요시간 및 주문 안내를 확인할 수 있습니다." }}
+{{ else if eq .RelPermalink "/page/" }}
+  {{ $metaTitle = "이용 안내 | 꽃이랑 근조화환" }}
+  {{ $metaDescription = "꽃이랑 회사 소개와 이용약관, 개인정보 처리방침, 취소 및 환불 규정을 확인할 수 있습니다." }}
+{{ end }}
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>{{ .Title }}</title>
-<meta name="description" content="{{ .Description }}">
+<title>{{ $metaTitle }}</title>
+<meta name="description" content="{{ $metaDescription }}">
 <link rel="canonical" href="{{ .Permalink }}">
 <meta name="robots" content="index,follow,max-image-preview:large">
 {{ with $site.site_verification.naver }}<meta name="naver-site-verification" content="{{ . }}">{{ end }}
 {{ with $site.site_verification.google }}<meta name="google-site-verification" content="{{ . }}">{{ end }}
 
 <meta property="og:type" content="website">
-<meta property="og:title" content="{{ .Title }}">
-<meta property="og:description" content="{{ .Description }}">
+<meta property="og:title" content="{{ $metaTitle }}">
+<meta property="og:description" content="{{ $metaDescription }}">
 {{ $heroChoices := slice "img/hero_01.webp" "img/hero_03.webp" }}
 {{ $heroIndex := mod (len .Permalink) 2 }}
 {{ $ogImg := resources.Get (index $heroChoices $heroIndex) }}

@@ -6,6 +6,7 @@
   (buildFuture=false 라 발행일이 지난 페이지만 존재할 수 있음 — 개수는 별도 표기)
 """
 import itertools
+import html as html_lib
 import random
 import re
 import sys
@@ -61,7 +62,7 @@ def jaccard(a: set, b: set) -> float:
 
 def main():
     # ---------- 구조 ----------
-    md_files = sorted(CONTENT_FUNERAL.glob("*.md"))
+    md_files = sorted(p for p in CONTENT_FUNERAL.glob("*.md") if p.name != "_index.md")
     check("content/funeral/*.md 개수 == 1080", len(md_files) == 1080, f"{len(md_files)}개")
 
     fms = [load_front_matter(p) for p in md_files]
@@ -71,6 +72,33 @@ def main():
 
     missing_keys = [fm.get("url", "?") for fm in fms if not REQUIRED_KEYS.issubset(fm.keys())]
     check("front matter 필수 키 누락 0건", not missing_keys, f"{len(missing_keys)}건")
+
+    # 목록 허브는 장례식장 상세페이지의 개수·필수 키 검사와 분리한다.
+    hubs = {
+        "funeral": "장례식장 근조화환 안내",
+        "page": "이용 안내",
+    }
+    for section, expected_title in hubs.items():
+        source = ROOT / "content" / section / "_index.md"
+        check(f"{section} 한국어 목록 파일 존재", source.is_file())
+        if not source.is_file():
+            continue
+        hub_fm = load_front_matter(source)
+        check(f"{section} 목록 한국어 제목", hub_fm.get("title") == expected_title)
+        check(f"{section} 목록 설명 존재", bool(hub_fm.get("description", "").strip()))
+        source_body = re.sub(r"^---\n.*?\n---\n", "", source.read_text(encoding="utf-8"), count=1, flags=re.S)
+        check(f"{section} 목록 소개 존재", bool(source_body.strip()))
+        if PUBLIC.exists():
+            built = PUBLIC / section / "index.html"
+            check(f"{section} 목록 빌드 존재", built.is_file())
+            if built.is_file():
+                built_html = built.read_text(encoding="utf-8")
+                headings = re.findall(r"<h1\b[^>]*>(.*?)</h1>", built_html, re.S | re.I)
+                check(
+                    f"{section} 목록 H1 한국어 제목",
+                    len(headings) == 1
+                    and html_lib.unescape(strip_tags(headings[0])) == expected_title,
+                )
 
     with open(CONFIG_PATH, encoding="utf-8") as f:
         site = yaml.safe_load(f)["site"]

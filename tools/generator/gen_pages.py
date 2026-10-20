@@ -199,6 +199,17 @@ def main():
         r, front = row["r"], row["front"]
         (CONTENT_FUNERAL / f"{r['slug']}.md").write_text(yaml_front_matter(front) + "\n", encoding="utf-8")
 
+    # 이 목록 페이지도 자동 생성하여 재생성 후 한국어 제목을 보존한다.
+    funeral_hub = {
+        "title": "장례식장 근조화환 안내",
+        "description": "전국 장례식장별 근조화환 안내를 모았습니다. 각 페이지에서 장례식장 정보와 가격, 리본 문구, 배송 소요시간 및 주문 안내를 확인할 수 있습니다.",
+    }
+    (CONTENT_FUNERAL / "_index.md").write_text(
+        yaml_front_matter(funeral_hub)
+        + "\n아래 목록에서 장례식장을 선택하면 근조화환 가격과 주문 안내를 확인할 수 있습니다.\n",
+        encoding="utf-8",
+    )
+
     # 지역 허브: areas.json (시도 -> 시군구 -> 개수)
     areas = json.loads(DATA_AREAS.read_text(encoding="utf-8"))
     by_sigungu_min_date = {}

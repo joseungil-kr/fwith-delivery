@@ -145,6 +145,16 @@ def main():
     check("config/site.yaml 에 {{PLACEHOLDER}} 잔존 0건", not placeholders, f"{placeholders}")
 
     # ---------- public/ 기반 (있는 만큼만 검사) ----------
+    if PUBLIC.exists():
+        error_page = PUBLIC / "404.html"
+        check("404 안내 페이지 빌드 존재", error_page.is_file())
+        if error_page.is_file():
+            error_html = error_page.read_text(encoding="utf-8")
+            check("404 안내 문구", "페이지를 찾을 수 없습니다" in error_html)
+            check(
+                "404 검색 제외",
+                bool(re.search(r'<meta\s+name=["\']?robots["\']?\s+content=["\']noindex,follow["\']', error_html)),
+            )
     html_files = sorted(PUBLIC.glob("funeral/*/index.html")) if PUBLIC.exists() else []
     if not html_files:
         warnings.append("public/funeral/*/index.html 없음 — hugo build 먼저 실행할 것")

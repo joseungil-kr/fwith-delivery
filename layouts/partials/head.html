@@ -12,12 +12,20 @@
   {{ $metaTitle = "이용 안내 | 꽃이랑 근조화환" }}
   {{ $metaDescription = "꽃이랑 회사 소개와 이용약관, 개인정보 처리방침, 취소 및 환불 규정을 확인할 수 있습니다." }}
 {{ end }}
+{{ if eq .Kind "404" }}
+  {{ $metaTitle = printf "페이지를 찾을 수 없습니다 | %s" $site.brand }}
+  {{ $metaDescription = "요청하신 페이지를 찾을 수 없습니다. 주소를 확인하거나 장례식장 목록과 이용 안내에서 다시 찾아 주세요." }}
+{{ end }}
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>{{ $metaTitle }}</title>
 <meta name="description" content="{{ $metaDescription }}">
 <link rel="canonical" href="{{ .Permalink }}">
+{{ if eq .Kind "404" }}
+<meta name="robots" content="noindex,follow">
+{{ else }}
 <meta name="robots" content="index,follow,max-image-preview:large">
+{{ end }}
 {{ with $site.site_verification.naver }}<meta name="naver-site-verification" content="{{ . }}">{{ end }}
 {{ with $site.site_verification.google }}<meta name="google-site-verification" content="{{ . }}">{{ end }}
 

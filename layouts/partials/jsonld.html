@@ -18,7 +18,18 @@
   "openingHours": "Mo-Su 00:00-24:00"
 }
 </script>
-{{ else if eq .Type "funeral" }}
+{{ else if or (eq .RelPermalink "/funeral/") (eq .RelPermalink "/area/") }}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {"@type": "ListItem", "position": 1, "name": "홈", "item": "{{ $base }}/"},
+    {"@type": "ListItem", "position": 2, "name": {{ .Title | jsonify | safeJS }}, "item": "{{ .Permalink }}"}
+  ]
+}
+</script>
+{{ else if and .IsPage (eq .Type "funeral") }}
 {{ $f := .Params.funeral }}
 <script type="application/ld+json">
 [

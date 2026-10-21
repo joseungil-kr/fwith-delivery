@@ -5,6 +5,7 @@
 - public/ 기반 체크는 마지막 hugo build 결과를 그대로 검사한다.
   (buildFuture=false 라 발행일이 지난 페이지만 존재할 수 있음 — 개수는 별도 표기)
 """
+import json
 import itertools
 import html as html_lib
 import random
@@ -154,6 +155,28 @@ def main():
             check(
                 "404 검색 제외",
                 bool(re.search(r'<meta\s+name=["\']?robots["\']?\s+content=["\']noindex,follow["\']', error_html)),
+            )
+    if PUBLIC.exists():
+        malformed = []
+        for built in PUBLIC.rglob("*.html"):
+            text = built.read_text(encoding="utf-8")
+            if "%!s" in text or "%25!s" in text:
+                malformed.append(str(built.relative_to(PUBLIC)))
+        check("생성 HTML nil 문구·링크 0건", not malformed, str(malformed[:5]))
+        for section in ("funeral", "area"):
+            built = PUBLIC / section / "index.html"
+            if not built.is_file():
+                check(f"{section} 허브 구조화 데이터 빌드 존재", False)
+                continue
+            text = built.read_text(encoding="utf-8")
+            scripts = re.findall(r'<script\b[^>]*type=["\']?application/ld\+json["\']?[^>]*>(.*?)</script>', text, re.S)
+            schemas = [json.loads(script) for script in scripts]
+            check(
+                f"{section} 허브는 빈 상세정보 대신 목록 경로 표시",
+                len(schemas) == 1
+                and schemas[0].get("@type") == "BreadcrumbList"
+                and len(schemas[0].get("itemListElement", [])) == 2
+                and all(item.get("name") for item in schemas[0]["itemListElement"]),
             )
     html_files = sorted(PUBLIC.glob("funeral/*/index.html")) if PUBLIC.exists() else []
     if not html_files:

@@ -1,5 +1,7 @@
 {{ $items := slice (dict "name" "홈" "url" "/") }}
-{{ if eq .Type "funeral" }}
+{{ if eq .RelPermalink "/funeral/" }}
+  {{ $items = $items | append (dict "name" .Title "url" .Permalink) }}
+{{ else if and .IsPage (eq .Type "funeral") }}
   {{ $f := .Params.funeral }}
   {{ $items = $items | append (dict "name" $f.sido "url" (printf "/area/%s/" $f.sido)) }}
   {{ $items = $items | append (dict "name" $f.sigungu "url" (printf "/area/%s/%s/" $f.sido $f.sigungu_slug)) }}

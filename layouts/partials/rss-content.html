@@ -1,0 +1,10 @@
+{{- $body := .Content | string -}}
+{{- $base := urls.Parse .Permalink -}}
+{{- range findRESubmatch `(?i)(href|src|poster)=["']([^"']+)["']` $body -}}
+  {{- $reference := index . 2 -}}
+  {{- if not (findRE `(?i)^([a-z][a-z0-9+.-]*:|//)` $reference) -}}
+    {{- $resolved := $base.ResolveReference (urls.Parse $reference) -}}
+    {{- $body = replace $body (index . 0) (printf "%s=%q" (index . 1) ($resolved.String)) -}}
+  {{- end -}}
+{{- end -}}
+{{- return $body -}}

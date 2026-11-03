@@ -1,0 +1,36 @@
+{{- /* Adapted from Hugo's Apache-2.0 embedded RSS template. */ -}}
+{{- $pages := where .Site.RegularPages "Section" "__rss_empty__" -}}
+{{- if .IsHome -}}{{- $pages = .Site.RegularPages -}}
+{{- else if .IsSection -}}{{- $pages = .RegularPagesRecursive -}}{{- end -}}
+{{- with .Site.Params.rssSections -}}{{- $pages = where $pages "Section" "in" . -}}{{- end -}}
+{{- $items := slice -}}
+{{- range $pages.ByDate.Reverse -}}
+  {{- if and (lt (len $items) 50) (not .Params.noindex) (not .Params.private) (not .Params.rssExclude) (not .Draft) (le .PublishDate now) -}}
+    {{- $body := partial "rss-content.html" . -}}
+    {{- if strings.TrimSpace ($body | plainify) -}}{{- $items = $items | append (dict "page" . "body" $body) -}}{{- end -}}
+  {{- end -}}
+{{- end -}}
+{{- printf "<?xml version=\"1.0\" encoding=\"utf-8\"?>" | safeHTML }}
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+<channel>
+<title>{{ .Site.Title | transform.XMLEscape | safeHTML }}</title>
+<link>{{ .Site.Home.Permalink | transform.XMLEscape | safeHTML }}</link>
+<description>{{ .Site.Params.description | default .Site.Title | transform.XMLEscape | safeHTML }}</description>
+<language>{{ .Site.Language.Locale | default "ko" }}</language>
+{{- with .OutputFormats.Get "RSS" }}
+<atom:link href="{{ .Permalink }}" rel="self" type="application/rss+xml" />
+{{- end }}
+{{- range $items }}
+<item>
+<title>{{ .page.Title | transform.XMLEscape | safeHTML }}</title>
+<link>{{ .page.Permalink | transform.XMLEscape | safeHTML }}</link>
+<guid isPermaLink="true">{{ .page.Permalink | transform.XMLEscape | safeHTML }}</guid>
+{{- if not .page.PublishDate.IsZero }}
+<pubDate>{{ .page.PublishDate.Format "Mon, 02 Jan 2006 15:04:05 -0700" | safeHTML }}</pubDate>
+{{- end }}
+<description>{{ .body | transform.XMLEscape | safeHTML }}</description>
+<content:encoded>{{ .body | transform.XMLEscape | safeHTML }}</content:encoded>
+</item>
+{{- end }}
+</channel>
+</rss>

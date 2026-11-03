@@ -1,3 +1,4 @@
+{{ with .Site.Home.OutputFormats.Get "RSS" }}<link rel="alternate" type="application/rss+xml" title="{{ $.Site.Title }}" href="{{ .Permalink }}">{{ end }}
 {{ $site := .Site.Data.site.site }}
 {{ $areaTitlePrefix := partial "area-title-prefix.html" . }}
 {{ $metaTitle := printf "%s%s" $areaTitlePrefix .Title }}

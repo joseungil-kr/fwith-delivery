@@ -9,3 +9,6 @@ paginate = 10
 buildFuture = false
 buildDrafts = false
 buildExpired = false
+
+[params]
+  rssSections = ["guide"]
